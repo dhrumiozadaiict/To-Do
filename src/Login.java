@@ -1,29 +1,30 @@
 import java.util.*;
 public class Login {
-	private static int failedAttempts;
-	private static boolean loggedIn;
-	static {
-		failedAttempts = 1;
+	private int failedAttempts;
+	private boolean loggedIn;
+	Login()
+	{
+		failedAttempts = 0;
 		loggedIn = false;
 	}
-	static boolean isLoggedIn()
+	boolean isLoggedIn()
 	{
 		return loggedIn;
 	}
-	static int remainingAttempts()
+	int remainingAttempts()
 	{
-		return (4-failedAttempts);
+		return (3-failedAttempts);
 	}
-	static int LoginUser(int id,String password)
-	{
-		if(failedAttempts == 3)
-			throw new LogInTryExceeds(); 
+	int LoginUser(int id,String password)
+	{ 
 		if(Authenticator.authenticate(id,password)) {
 			loggedIn = true;
 			return id;
 		}
 		else {
 			failedAttempts++;
+			if(failedAttempts == 3)
+				throw new LogInTryExceeds();
 			return -1;
 		}
 	}

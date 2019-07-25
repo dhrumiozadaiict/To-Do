@@ -2,9 +2,11 @@ import java.io.*;
 import java.util.*;
 public class MainClass {
 	private static int currentlyLoggedInUserId; 
+	private static User currentlyLoggedInUser;
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		while(!Login.isLoggedIn())
+		Login login = new Login();
+		while(!login.isLoggedIn())
 		{
 			System.out.println("Enter UserId: ");
 			int id;
@@ -19,12 +21,13 @@ public class MainClass {
 			in.nextLine();
 			System.out.println("Enter password: ");
 			String password = in.next();
-			int tryId = Login.LoginUser(id, password);
+			int tryId = login.LoginUser(id, password);
 			if(tryId == -1)
-				System.out.println("Invalid Id or password "+Login.remainingAttempts()+"attempts remained");
+				System.out.println("Invalid Id or password "+login.remainingAttempts()+"attempts remained");
 			else 
 				currentlyLoggedInUserId = tryId;
 		}
-		System.out.println(currentlyLoggedInUserId);
+		System.out.println("User Id: "+currentlyLoggedInUserId+" logged in");
+		currentlyLoggedInUser = UserMap.getUserFromId(currentlyLoggedInUserId);
 	}
 }
