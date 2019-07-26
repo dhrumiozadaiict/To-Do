@@ -1,8 +1,9 @@
 import java.util.*;
-public class Login {
+public class UserLoginController {
 	private int failedAttempts;
-	private boolean loggedIn;
-	Login()
+	private User currentlyLoggedInUser;
+	private static boolean loggedIn;
+	UserLoginController()
 	{
 		failedAttempts = 0;
 		loggedIn = false;
@@ -11,21 +12,26 @@ public class Login {
 	{
 		return loggedIn;
 	}
+	User getCurrentlyLoggedInUser()
+	{
+		return currentlyLoggedInUser;
+	}
 	int remainingAttempts()
 	{
 		return (3-failedAttempts);
 	}
-	int LoginUser(int id,String password)
+	boolean LoginUser(int id,String password)
 	{ 
 		if(Authenticator.authenticate(id,password)) {
 			loggedIn = true;
-			return id;
+			currentlyLoggedInUser = new UserMap().getUserFromId(id);
+			return true;
 		}
 		else {
 			failedAttempts++;
 			if(failedAttempts == 3)
 				throw new LogInTryExceeds();
-			return -1;
+			return false;
 		}
 	}
 }

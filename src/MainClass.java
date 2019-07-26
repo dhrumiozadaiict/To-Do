@@ -1,11 +1,9 @@
 import java.io.*;
 import java.util.*;
 public class MainClass {
-	private static int currentlyLoggedInUserId; 
-	private static User currentlyLoggedInUser;
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		Login login = new Login();
+		UserLoginController login = new UserLoginController();
 		while(!login.isLoggedIn())
 		{
 			System.out.println("Enter UserId: ");
@@ -21,13 +19,13 @@ public class MainClass {
 			in.nextLine();
 			System.out.println("Enter password: ");
 			String password = in.next();
-			int tryId = login.LoginUser(id, password);
-			if(tryId == -1)
-				System.out.println("Invalid Id or password "+login.remainingAttempts()+"attempts remained");
-			else 
-				currentlyLoggedInUserId = tryId;
+			if(!login.LoginUser(id, password))
+				System.out.println("Invalid Id or password "+login.remainingAttempts()+" attempts remained");
 		}
-		System.out.println("User Id: "+currentlyLoggedInUserId+" logged in");
-		currentlyLoggedInUser = UserMap.getUserFromId(currentlyLoggedInUserId);
+		System.out.println("User Id: "+login.getCurrentlyLoggedInUser().getId()+" logged in");
+		UserOperations useroperations = new UserOperations(login);
+		useroperations.addAToDoList("public");
+		useroperations.addAToDoList("Professional");
+		useroperations.getCurrentlyLoggedInUserToDoLists();
 	}
 }

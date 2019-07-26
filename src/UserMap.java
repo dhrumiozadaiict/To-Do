@@ -1,15 +1,15 @@
 import java.util.HashMap;
 public class UserMap {
-	private static final HashMap<Integer,User> IDTOUSERMAP;
+	private static HashMap<Integer,User> idtousermap;
 	static {
-		IDTOUSERMAP = new HashMap<Integer,User>();
-		IDTOUSERMAP.put(1,new User(1));
-		IDTOUSERMAP.put(2,new User(2));
-		IDTOUSERMAP.put(3,new User(3));
-		IDTOUSERMAP.put(4,new User(4));
+		idtousermap = new HashMap<Integer,User>();
+		idtousermap.put(1,new User(1));
+		idtousermap.put(2,new User(2));
+		idtousermap.put(3,new User(3));
+		idtousermap.put(4,new User(4));
 	}
-	static User getUserFromId(int id)
+	User getUserFromId(int id)
 	{
-		return IDTOUSERMAP.get(id);
+		return idtousermap.get(id);
 	}
 }

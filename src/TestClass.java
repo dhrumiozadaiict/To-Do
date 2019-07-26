@@ -14,19 +14,19 @@ public class TestClass {
 	}
 	private static void checkIfValidUserCanLogin()
 	{
-		Login login = new Login();
-		int tryId;
-		tryId = login.LoginUser(1,"abcdef");
-		check(1,tryId);
+		UserLoginController login = new UserLoginController();
+		if(!login.LoginUser(1,"abcdef"))
+			throw new RuntimeException("valid User is not Logging in");
+		check(1,login.getCurrentlyLoggedInUser().getId());
 		if(!login.isLoggedIn())
 			throw new RuntimeException("Invalid, user should be logged in");
 	}
 	private static void enteredIdIsNotString()
 	{
-		Login login = new Login();
+		UserLoginController login = new UserLoginController();
 		int tryId;
 		try {
-			tryId = login.LoginUser(Integer.parseInt("abc"),"abcdef");
+			login.LoginUser(Integer.parseInt("abc"),"abcdef");
 			throw new RuntimeException("String as an id is allowed");
 			
 		}
@@ -36,14 +36,16 @@ public class TestClass {
 	}
 	private static void checkIfInvalidUserCannotLogin()
 	{
-		Login login = new Login();
+		UserLoginController login = new UserLoginController();
 		int tryId;
-		tryId = login.LoginUser(1,"abcde");
-		check(-1,tryId);
+		if(login.LoginUser(1,"abcde"))
+			throw new RuntimeException("Invalid User Is Logging in");
+		if(login.getCurrentlyLoggedInUser() != null)
+			throw new RuntimeException("Invalid User Object is created");
 	}
 	private static void check3TryAttemptsOfLogin()
 	{
-		Login login = new Login();
+		UserLoginController login = new UserLoginController();
 		int[] checkIds = new int[] {1,5,3};
 		String[] checkPasswords = new String[] {"abcde","wjbdjkw","avwdvwv"};
 		try {
